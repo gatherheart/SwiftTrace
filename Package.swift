@@ -14,12 +14,21 @@ let package = Package(
         // SwiftTrace needs to be .dynamic for
         // the trampolines to work on Intel.
         .library(name: "SwiftTrace", type: .dynamic, targets: ["SwiftTrace"]),
-        .library(name: "SwiftTraceGuts", type: .dynamic, targets: ["SwiftTraceGuts"]),
+        .library(name: "SwiftTraceGuts", type: .static, targets: ["SwiftTraceGuts"])
     ],
     dependencies: [],
     targets: [
-        .target(name: "SwiftTrace", dependencies: ["SwiftTraceGuts"], path: "SwiftTrace/"),
-        .target(name: "SwiftTraceGuts", dependencies: [], path: "SwiftTraceGuts/"),
+        .target(name: "SwiftTrace",
+                dependencies: ["SwiftTraceGuts"],
+                path: "SwiftTrace/",
+                linkerSettings: [
+                    .unsafeFlags(["-ObjC"]),
+                ]
+        ),
+        .target(name: "SwiftTraceGuts",
+                dependencies: [],
+                path: "SwiftTraceGuts/"
+        )
     ],
     cxxLanguageStandard: .cxx11
 )
