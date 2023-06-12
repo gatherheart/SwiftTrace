@@ -21,9 +21,7 @@ let package = Package(
         .target(name: "SwiftTrace",
                 dependencies: ["SwiftTraceGuts"],
                 path: "SwiftTrace/",
-                linkerSettings: [
-                    .unsafeFlags(["-ObjC"]),
-                ]
+                linkerSettings: []
         ),
         .target(name: "SwiftTraceGuts",
                 dependencies: [],
